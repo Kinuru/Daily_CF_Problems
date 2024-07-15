@@ -1,0 +1,57 @@
+signed main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0); cout.tie(0);
+
+    double ans = 0;
+    ll xa, ya, xb, yb, xo, yo;
+    cin >> xa >> ya >> xb >> yb >> xo >> yo;
+    xa -= xo, ya -= yo;
+    xb -= xo, yb -= yo;
+    A = {xa, ya}, B = {xb, yb}, O = {0, 0};
+
+    int n; cin >> n;
+    L(i, 1, n){
+        int x, y; cin >> x >> y;
+        x -= xo, y -= yo;
+        p[i] = {x, y};
+
+        ans  += (double) 2 * p[i].length();
+        da[i] = {i, dis(A, p[i]) - dis(O, p[i])}, db[i] = {i, dis(B, p[i]) - dis(O, p[i])};
+    }
+    // 
+    sort(da + 1, da + n + 1);
+    sort(db + 1, db + n + 1);
+    
+    if(da[1].len >= 0 && db[1].len >= 0){
+        if(da[1].len < db[1].len){
+            ans += da[1].len;
+        }else{
+            ans += db[1].len;
+        }
+        cout << fixed << setprecision(10) << ans << endl;
+        return 0;
+    }
+    if(da[1].len <= 0 && db[1].len <= 0){
+        //cout << 2 << endl;
+        int pa = da[1].id, pb = db[1].id;
+        if(pa != pb) ans += da[1].len + db[1].len;
+        else{
+            // L(i, 1, 2){
+            //     cout << da[i].len << " " << db[i].len << endl;
+            // }
+            double t = min(da[1].len, db[1].len);
+            t = min({da[1].len + db[2].len, da[2].len + db[1].len, t});
+            ans += t;
+        }
+        cout << fixed << setprecision(10) << ans << endl;
+        return 0;
+    }
+    if(db[1].len < 0){
+        ans += db[1].len;
+    }else{
+        ans += da[1].len;
+    }
+    cout << fixed << setprecision(10) << ans << endl;
+
+    return 0;
+}
